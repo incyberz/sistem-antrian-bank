@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Demo Web Speech API</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        background: #f4f4f4;
+      }
+      button {
+        margin: 5px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      #result {
+        margin-top: 20px;
+        padding: 15px;
+        background: white;
+        border: 1px solid #ccc;
+        min-height: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>🎤 Demo Web Speech API</h2>
+
+    <!-- Tombol untuk Voice to Text -->
+    <button id="startBtn">Mulai Bicara</button>
+    <button id="stopBtn">Stop</button>
+
+    <div id="result">Hasil suara akan muncul di sini...</div>
+
+    <!-- Input untuk Text to Speech -->
+    <h3>🗣️ Text to Speech</h3>
+    <input type="text" id="textToSpeak" value="Halo, apa kabar?" size="40" />
+    <button id="speakBtn">Bacakan</button>
+
+    <script>
+      // --- Speech Recognition (ucapan ke teks) ---
+      const SpeechRecognition =
+        window.SpeechRecognition || window.webkitSpeechRecognition;
+      let recognition;
+
+      if (SpeechRecognition) {
+        recognition = new SpeechRecognition();
+        recognition.lang = "id-ID"; // Bahasa Indonesia
+        recognition.continuous = true;
+        recognition.interimResults = true;
+
+        recognition.onresult = (event) => {
+          let transcript = "";
+          for (let i = event.resultIndex; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+          }
+          document.getElementById("result").textContent = transcript;
+        };
+
+        recognition.onerror = (event) => {
+          console.error("Error:", event.error);
+        };
+
+        document.getElementById("startBtn").onclick = () => recognition.start();
+        document.getElementById("stopBtn").onclick = () => recognition.stop();
+      } else {
+        alert("Browser Anda tidak mendukung SpeechRecognition API.");
+      }
+
+      // --- Speech Synthesis (teks ke ucapan) ---
+      document.getElementById("speakBtn").onclick = () => {
+        const text = document.getElementById("textToSpeak").value;
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "id-ID"; // Bahasa Indonesia
+        speechSynthesis.speak(utterance);
+      };
+    </script>
+  </body>
+</html>
