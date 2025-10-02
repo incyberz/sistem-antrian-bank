@@ -14,6 +14,7 @@ if (isset($_POST['btn_next_antrian'])) {
     # ============================================================
     $s = "UPDATE tb_antrian SET 
     akhir_layanan = CURRENT_TIMESTAMP,
+    petugas = '$username',
     status = $status_selesai -- complete(2) | skipped(-1) 
     WHERE id = $id_sedang_dilayani
     ";
