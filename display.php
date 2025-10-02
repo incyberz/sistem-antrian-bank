@@ -1,6 +1,7 @@
 <?php
 $displays = '';
 $marquess = '';
+
 foreach ($rjenis_antrian as $kode => $d) {
   if ($d['status'] != 1) continue;
   $s = "SELECT a.nomor FROM tb_antrian a 
@@ -11,7 +12,8 @@ foreach ($rjenis_antrian as $kode => $d) {
   $q = mysqli_query($cn, $s) or die(mysqli_error($cn));
   $antrian = mysqli_fetch_assoc($q);
   if ($antrian) {
-    $kode_nomor = "$kode" . sprintf('%03d', $antrian['nomor']);
+    $sprintf = sprintf('%03d', $antrian['nomor']);
+    $kode_nomor = "$kode$sprintf";
   } else {
     $kode_nomor = "----";
   }
@@ -59,3 +61,4 @@ include 'total_antrian.php';
 </div>
 
 <script src="js/update_counts.js"></script>
+<?php include 'speech.php'; ?>
