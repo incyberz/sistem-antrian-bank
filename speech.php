@@ -21,7 +21,7 @@ if ($antrian) {
 }
 ?>
 
-<input type="hidden" id="textToSpeak" value="<?= $kode_speak ?>" size="40" />
+<input type="hiddena" id="textToSpeak" value="<?= $kode_speak ?>" size="40" />
 
 <script>
   function bicara(text) {
